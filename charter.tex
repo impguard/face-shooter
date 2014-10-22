@@ -1,0 +1,32 @@
+\documentclass[11pt]{article}
+\usepackage{url}
+\usepackage[top=.5in, bottom=.5in, left=.5in, right=.5in]{geometry}
+\thispagestyle{empty}
+
+
+\begin{document}
+
+\begin{center}
+Project Title: \textbf{Automated NERF Firing System}\\
+Team: \textit{Craig Hiller, Christopher Hsu, Kevin Wu, Leo Kam}\\
+EECS 149/249A Project Charter, Fall, 2014
+\end{center}
+\subsubsection*{Project Goal} This project will create an automated NERF turret that can detect a target, aim, and fire at the target.
+\subsubsection*{Project Approach} The project will model the detection of a target and aiming as a state machine governed by the combination of RGBD camera data and other sensor inputs to correctly aim the turret. The goal will be to accurately detect a target and aim/fire accurately for maximum effect.  
+\subsubsection*{Resources} To accomplish this, we plan on constructing a rotating platform (made of plywood) with a mount that can pivot vertically using servos (either the Bioloids in 204 Cory Hall or from the Invention Lab). We would then attach a NERF blaster (either an N-Strike Elite Stryfe or N-Strike Elite RapidStrike CS-18) to this mount. To the front of this NERF blaster, an Intel RealSense 3D camera which we will use to detect a target. This camera however, only works with Windows 8, so we will have an external computer running target detection software. To communicate the targeting information back to the mbed processor, we will need some form of wireless communications. One possibility is the XBee\footnote{\url{http://developer.mbed.org/cookbook/XBee}} which is an easy-to-use wireless module. We will use the camera to find the desired target, and then the combination of two servos to aim the NERF blaster, the accelerometer in the mbed platform will be used to determine the angle the platform is at when determining how to fire the blaster once the target is acquired. Time permitting, a gyroscope could be added to make this measurement more accurate. 
+\subsubsection*{Schedule}
+\begin{itemize}
+\item October 21: Project charter (this document)
+\item October 28: Choice of platform finalized after discussion with GSI
+\item November 4: Statechart simulation model with logic for aiming and visual targeting system
+\item November 11: Have platform built, NERF blaster modified so it can be triggered electronically.
+\item November 18: \textit{Mini project update} Demonstrate platform motion and target detection
+\item November 25: Aim the blaster/turret combination so the target will be hit
+\item December 2: System testing, improve individual components. Measure detection and network performance
+\item December 9: System testing, measure accuracy and effectiveness of system. Improve as needed
+\item December 16: Presentation created and demo video finished 
+\item December 17: Final presentation and demo 
+\item December 19: Project report and video turned in
+\end{itemize}
+\subsubsection*{Risk and Feasibility} The components to build the platform could stress the budget when we consider the other parts that we will need. The network connection to the Windows computer could be hard to control. Constructing the platform and controlling the servos could be difficult for us.
+\end{document}

@@ -374,8 +374,8 @@ Description of the various components (see next sections) + figure showing how t
 Updates on the NERF gun and the turret + figure showing the nerf gun
 
 \section{Face Recognition}
-
-Updates on camera control + figure showing it working (Mention no server connection yet).
+We have decided to use an Intel RealSense 3D Camera to handle face recognition. This camera was chosen since it has a small form factor and provides RGBD information at 30 frames per second. A limitation of this camera is that it must be connected to a Windows 8 computer via USB3, but it only came with a short cable. To get around this limitation,  we ordered a 2m USB3 extension cable. On the software side, we have C++ code that reads from the camera and uses OpenCV to detect faces. We are still working on creating a connection from this computer to the micro controller so that we can move the turret based off of a face's position in space. Below shows (counter clock-wise from bottom left) input put image, face detected image, and depth image.\\\\
+    \includegraphics[width=0.48\textwidth]{face_detection.png}
 
 \section{Controller}
 

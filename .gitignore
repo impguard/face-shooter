@@ -1,3 +1,6 @@
+# Ignore file tex files
+*.synctex.gz
+
 # Mac files
 *.DS_Store
 

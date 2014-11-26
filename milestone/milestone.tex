@@ -266,6 +266,8 @@
 % \url{my_url_here}.
 
 
+\usepackage{color}
+
 %============================================================
 % PRE-DOCUMENT SETUP
 %============================================================
@@ -359,19 +361,30 @@ Kevin~Wu,
 % 
 % Here we have the typical use of a "T" for an initial drop letter
 % and "HIS" in caps to complete the first word.
-\IEEEPARstart{T}{his} project will create an automated NERF turret that can detect a target (a human face), aim, and fire at the target. The project will model the detection of a target and aiming as a state machine governed by the combination of RGBD camera data and other sensor inputs to correctly aim the turret. The goal will be to accurately detect a target and aim/fire accurately for maximum effect.
+\IEEEPARstart{T}{his} project will create an automated NERF turret that can detect a target \colorbox{yellow}{(a human face)}, aim, and fire at the target. The project will model the detection of a target and aiming as a state machine governed by the combination of RGBD camera data and other sensor inputs to correctly \colorbox{yellow}{rotate the turret and incline the NERF gun to aim at the target}. The goal will be to accurately detect a target and aim/fire accurately for maximum effect.
 
 \section{Project Requirements}
 
-Based off concerns in the presentation, list out explicit minimum requirements.
+\itemize{
+\item
+Turret platform support rotation up to 360 degree.
+\item
+Turret gun support incline angle between 0 and 30 degree.
+\item
+Turret support facial recognition.
+\item
+Turret gun support accurately hitting a stationary target (human face) within the range of 5 meters.
+\item
+In the case of communication error, turret support successful tracking target to the last known location. 
+}
 
 \section{System Components}
 
-Description of the various components (see next sections) + figure showing how they connect.
+The system is divided into four components: (1) NERF Turret, (2) Face Recognition, (3) Controller, and (4) Communication. The NERF turret is the actuator part of our system, and consisted of a rotating platform- a turntable made of bearings, motors, and winch- and a electronically triggered NERF gun mounted on the platform. The face recognition is the sensor of the system and is accomplished via a RGBD camera. The MBED microcontroller serves as the controller of the system, processing sensor inputs and issuing commands to the actuators to aim the turret at target. The last component is the communication between the sensors, actuators and controller. The microcontroller is connected to the the actuators via wired connections, and to the sensors using WiFi connection via the Adafruit CC3000 chip.
 
-\section{NERF Gun Turret}
+\section{NERF Turret}
 
-The NERF Gun and Turret are the actuators in our system. So far, we have been able to replace the two trigger switches in the NERF gun with relays connected to our micro controller. We use relays since they are easily controlled by a micro controller. There NERF Gun we have is a NERF CS-18, this was chosen since it is relatively small and light but most importantly, it is controlled entirely electronically which allowed us to swap out the switches of the gun. The plan to build the turret has changed, we are currently planning on making a turntable out of some bearings (ordered), a motor, and a winch. The motor will turn the table and be controlled by the micro controller, this is for rotating the blaster too line up in one in one direction. The winch will be mounted on the turntable and connected to the NERF gun. The winch will be turned by a motor until the target is in position. 
+The NERF Gun and Turret are the actuators in our system. So far, we have been able to replace the two trigger switches in the NERF gun with relays connected to our micro controller. We use relays since they are easily controlled by a micro controller. The NERF Gun we have is a NERF CS-18, this was chosen since it is relatively small and light but most importantly, it is controlled entirely electronically which allowed us to swap out the switches of the gun. The plan to build the turret has changed, we are currently planning on making a turntable out of some bearings (ordered), a motor, and a winch. The motor will turn the table and be controlled by the micro controller, this is for rotating the blaster to line up in one in one direction. The winch will be mounted on the turntable and connected to the NERF gun. The winch will be turned by a motor until the target is in position. 
 
 \section{Face Recognition}
 We have decided to use an Intel RealSense 3D Camera to handle face recognition. This camera was chosen since it has a small form factor and provides RGBD information at 30 frames per second. A limitation of this camera is that it must be connected to a Windows 8 computer via USB3, but it only came with a short cable. To get around this limitation,  we ordered a 2m USB3 extension cable. On the software side, we have C++ code that reads from the camera and uses OpenCV to detect faces. We are still working on creating a connection from this computer to the micro controller so that we can move the turret based off of a face's position in space. Below shows (counter clock-wise from bottom left) input put image, face detected image, and depth image.
@@ -385,7 +398,7 @@ We have decided to use an Intel RealSense 3D Camera to handle face recognition. 
 
 \section{Controller}
 
-Updates on the controller for the turret + figure showing state diagram
+Updates on the controller for the turret + figure showing state 
 
 \section{Communication}
 

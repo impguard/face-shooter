@@ -14,6 +14,31 @@
   parse-numbers=false,
   }
 
+% For code blocks
+\usepackage{listings}
+
+\usepackage{color}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{ %
+  basicstyle=\footnotesize,
+  captionpos=b,                    
+  commentstyle=\color{mygreen},    
+  frame=single,                    
+  keywordstyle=\color{blue},       
+  language=C++,
+  numbers=left,
+  numbersep=10pt,
+  numberstyle=\tiny\color{mygray},
+  stringstyle=\color{mymauve},
+  tabsize=2,
+  xleftmargin=2em,
+  framexleftmargin=2em
+}
+
 %============================================================
 % LIBRARIES
 %============================================================
@@ -360,76 +385,139 @@ Kevin~Wu,
 %============================================================
 
 \section{Introduction}
-% The very first letter is a 2 line initial drop letter followed
-% by the rest of the first word in caps.
-% 
-% form to use if the first word consists of a single letter:
-% \IEEEPARstart{A}{demo} file is ....
-% 
-% form to use if you need the single drop letter followed by
-% normal text (unknown if ever used by IEEE):
-% \IEEEPARstart{A}{}demo file is ....
-% 
-% Some journals put the first two words in caps:
-% \IEEEPARstart{T}{his demo} file is ....
-% 
-% Here we have the typical use of a "T" for an initial drop letter
-% and "HIS" in caps to complete the first word.
+
 \IEEEPARstart{T}{his} project will create an automated NERF turret that can detect a target \hl{(a human face)}, aim, and fire at the target. The project will model the detection and aiming of a target as a state machine governed by the combination of RGBD camera data and other sensor inputs to \hl{correctly rotate the turret and incline the NERF gun to aim at the target.} The goal will be to accurately detect a target and fire accurately for maximum effect.
 
 \section{Project Requirements}
+
 The general requirements that can be measured to determine the success of our turret are as follows:
 \begin{itemize}
 \item
-Turret platform support rotation up to \SI{360}{\degree}.
+The turret platform supports full \SI{360}{\degree} rotation.
 \item
-Turret gun support incline angle between \SI{0}{\degree} and \SI{30}{\degree}.
+The turret platform supports an incline angle between \SI{0}{\degree} and \SI{30}{\degree}.
 \item
-Turret support facial recognition.
+The turret is able to perform facial recognition.
 \item
-Turret gun support accurately hitting a stationary target (human face) within the range of 5 meters.
+The turret can accurately hit a stationary target (human face) within the range of 5 meters.
 \item
 In the case of communication error, turret support successful tracking target to the last known location. 
 \end{itemize}
 
 \section{System Components}
 
-The system is divided into four components: (1) NERF Turret, (2) Face Recognition, (3) Controller, and (4) Communication. The NERF turret is the actuator part of our system, and consisted of a rotating platform- a turntable made of bearings, motors, and winch- and a electronically triggered NERF gun mounted on the platform. The face recognition is the sensor of the system and is accomplished via a RGBD camera. The MBED microcontroller serves as the controller of the system, processing sensor inputs and issuing commands to the actuators to aim the turret at target. The last component is the communication between the sensors, actuators and controller. The microcontroller is connected to the the actuators via wired connections, and to the sensors using WiFi connection via the Adafruit CC3000 chip.
-
-\section{NERF Turret}
-
-The NERF Gun and Turret are the actuators in our system. So far, we have been able to replace the two trigger switches in the NERF gun with relays connected to our micro controller. We use relays since they are easily controlled by a micro controller. The NERF Gun we have is a NERF CS-18, this was chosen since it is relatively small and light but most importantly, it is controlled entirely electronically which allowed us to swap out the switches of the gun. The plan to build the turret has changed, we are currently planning on making a turntable out of some bearings (ordered), a motor, and a winch. The motor will turn the table and be controlled by the micro controller, this is for rotating the blaster to line up in one in one direction. The winch will be mounted on the turntable and connected to the NERF gun. The winch will be turned by a motor until the target is in position. 
-
-\section{Face Recognition}
-We have decided to use an Intel RealSense 3D Camera to handle face recognition. This camera was chosen since it has a small form factor and provides RGBD information at 30 frames per second. A limitation of this camera is that it must be connected to a Windows 8 computer via USB3, but it only came with a short cable. To get around this limitation,  we ordered a 2m USB3 extension cable. On the software side, we have C++ code that reads from the camera and uses OpenCV to detect faces. We are still working on creating a connection from this computer to the micro controller so that we can move the turret based off of a face's position in space. Figure~\ref{fig:face} shows (counter clock-wise from bottom left) input put image, face detected image, and depth image.
+A diagram illustrating the system components for this project is shown in Figure~\ref{fig:components}. 
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.48\textwidth]{face_detection.png}
-    \caption{Depth Map, RGB Image, and Face Detection}
+    \includegraphics[width=0.80\linewidth]{components.png}
+    \caption{System components hierarchy}
+    \label{fig:components}
+\end{figure}
+
+In general, the system is divided into two overarching components: (1) the NERF Turret and (2) the Microcontroller. Each component can be subdivided further as shown in the diagram. In general, the NERF Turret component is responsible for providing the actuators that control the rotating platform - a turntable made of bearings, motors, and a winch -, an electronically triggered NERF gun mounted on the platform, and the RGBD camera sensor that performs the face recognition. On the other hand, the microcontroller component is responsible for providing the controller api calls that appropriately handle the high and low level control of the system. The microcontroller is connected to the actuators via wired connections, and to the sensors using a WiFi connection via the Adafruit CC3000 chip.
+
+The four person group is divided into two subgroups that each handle one of the two overarching components. That is, one group handled the difficulties of acquiring a NERF gun, constructing a turret, and setting up sensors, while another handled the control system and the communication.
+
+\section{Updates}
+
+The updates that we have for the various system components are described below.
+
+\subsection{NERF Turret Actuators}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.80\linewidth]{gun.jpg}
+    \caption{The CS-18 that has been cut open to allow electrical input.}
+    \label{fig:gun}
+\end{figure}
+
+The NERF gun and the motors on the turret are the actuators in our system. We selected the CS-18, which was chosen since it was not only relatively lightweight, but also entirely electronically controlled which allowed us to swap out the switches of the firing mechanism. Figure~\ref{fig:gun} below shows the result of disassembling the gun to allow electronic firing.
+
+Currently, we have disassembled the NERF gun and reverse-engineered it to the point where we can electronically trigger it to fire a NERF dart. In addition, we have obtained two relays to replace the trigger switches in the gun in order to connect it to the microcontroller. Relays are used since they are more easily controlled via a GPIO pin on the microcontroller.
+
+For the turret we have begun drafting what we will be using to rotate the turret and how we will mount the gun on it.
+
+\subsection{RGBD Camera and Face Recognition}
+
+We have decided to use an Intel RealSense 3D Camera to handle face recognition. This camera was chosen since it has a small form factor and provides RGBD information at 30 frames per second. The RGB information is important in order to perform face recognition, and the depth information will be useful to allow the NERF gun to properly target the face once it is detected.
+
+A limitation of this camera is that it must be connected to a Windows 8 computer via USB3, but it only came with a short cable. To get around this limitation, we ordered a 2 meter USB3 extension cable.
+
+On the software side, we have C++ code that reads from the camera and uses OpenCV to detect faces. Figure~\ref{fig:face} shows a demo of this behavior.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.85\linewidth]{face_detection.png}
+    \caption{Going counter-clockwise  from the top right - Depth Map, RGB Image, and Face Detection}
     \label{fig:face}
 \end{figure}
 
-\section{Controller}
+\subsection{Controller}
 
-We have decided to use the MBED microcontroller to handle the control algorithm. Currently, we are able to control firing of the NERF gun with the MBED, via wired connection between the microcontroller and the relays.
+\vspace{3mm}
+\begin{lstlisting}[
+    caption={Basic demo code controlling the NERF gun.},
+    label={lst:controller}
+    ]
+#include "mbed.h"
+#include "TSISensor.h"
 
-\section{Communication}
+DigitalOut flywheel(PTB8);
+DigitalOut trigger (PTE20);
 
-Updates on various types of communication methods between camera + controller.
+TSISensor tsi;
+
+float eps = 0.001;
+
+int main() {
+  flywheel = 1;
+  while(1) {
+    if (tsi.readPercentage() < eps)
+      continue;
+    trigger = 1;
+    wait(0.4);
+    trigger = 0;
+  }
+}
+\end{lstlisting}
+
+We have decided to use the MBED microcontroller to handle the control algorithm. Currently, we are able to control firing of the NERF gun with the MBED, via wired connection between the microcontroller and the relays. In the code shown in Listing~\ref{lst:controller}, we have set the microcontroller to trigger the NERF gun when the capacitive touch sensor is touched. Figure~\ref{fig:chip} shows the chip connected to the relays via the proper GPIO pins.
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.78\linewidth]{chip.jpg}
+    \caption{An image of the MBED chip connected to the two relays. These would be connected to the NERF gun to electronically fire the gun.}
+    \label{fig:chip}
+\end{figure}
+
+\subsection{Communication}
+
+We have selected WiFi for our connection scheme mainly since it is easy and serves its purpose well for our requirements. We are tracking a static target, and, therefore, are perfectly fine with some latency with our communication protocol. However, we have had several problems using the Adafruit CC3000 chip with the MBED processor to connect to a network, and have yet been able to maintain a consistent connection.
 
 \section{Future Plans}
 
+This is what we expect to accomplish moving forwards:
+
 \begin{itemize}
-\item
-Implement the targeting algorithm.
-\item
+\item[1)]
 Build the turret platform.
-\item
+\item[2)]
+Implement the targeting algorithm.
+\item[3)]
 Set up server for communication between sensor and controller, via WiFi connection.
-\item
+\item[4)]
 Integrate all the components.
 \end{itemize}
+
+\subsection{Turret}
+
+The plan for the turret has changed, and we are currently planning on making a turntable out of some bearings (ordered), a motor, and a winch. The motor will turn the table and be controlled by the microcontroller, which will be used to rotate the gun to line up in one direction. The winch will be mounted on the turntable and connected to the NERF gun, which can be be turned by a motor until the target is in position.
+
+\subsection{Communication}
+
+We are still working on creating a simple server connection so that the microcontroller can recieve data from the face recognition software and, therefore, move the turret based off of a face's position in space.
 
 %============================================================
 % BIBLIOGRAPHY

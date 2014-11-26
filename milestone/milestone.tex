@@ -365,7 +365,7 @@ Kevin~Wu,
 
 \section{Project Requirements}
 
-\itemize{
+\begin{itemize}
 \item
 Turret platform support rotation up to 360 degree.
 \item
@@ -376,7 +376,7 @@ Turret support facial recognition.
 Turret gun support accurately hitting a stationary target (human face) within the range of 5 meters.
 \item
 In the case of communication error, turret support successful tracking target to the last known location. 
-}
+\end{itemize}
 
 \section{System Components}
 
@@ -398,7 +398,7 @@ We have decided to use an Intel RealSense 3D Camera to handle face recognition. 
 
 \section{Controller}
 
-Updates on the controller for the turret + figure showing state 
+We have decided to use the MBED microcontroller to handle the control algorithm. Currently, we are able to control firing of the NERF gun with the MBED, via wired connection between the microcontroller and the relays.
 
 \section{Communication}
 
@@ -406,7 +406,16 @@ Updates on various types of communication methods between camera + controller.
 
 \section{Future Plans}
 
-Future stuff
+\begin{itemize}
+\item
+Implement the targeting algorithm.
+\item
+Build the turret platform.
+\item
+Set up server for communication between sensor and controller, via WiFi connection.
+\item
+Integrate all the components.
+\end{itemize}
 
 %============================================================
 % BIBLIOGRAPHY

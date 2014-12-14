@@ -1,5 +1,5 @@
 $(function() {
-    var url = "http://localhost:8000/"
+    var url = "https://pew-pew-pew.herokuapp.com/"
     var pressed = false;
 
     $('body').keydown(function(e) {

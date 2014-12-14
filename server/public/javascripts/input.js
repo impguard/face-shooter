@@ -35,8 +35,14 @@ $(function() {
                 url: url + "spacebar",
                 type: "GET",
                 success: function(data, status, jqXHR) {
-                    console.log("Data  : " + data);
-                    console.log("Status: " + jqXHR.status);
+                    console.log("Spacebar  : " + data);
+                }
+            });
+            $.ajax({
+                url: url + "position",
+                type: "GET",
+                success: function(data, status, jqXHR) {
+                    console.log("Position  : " + data);
                 }
             });
         }

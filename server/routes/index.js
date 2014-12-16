@@ -4,6 +4,15 @@ var router = express.Router();
 var spaceBarPressed = 0;
 var headPosition = {x: 0, y: 0, z: 0};
 
+/* Helper function. */
+var pad5 = function(number) {
+    return String("00000" + number).slice(-5);
+}
+
+var pad3 = function(number) {
+    return String("000" + number).slice(-3);
+}
+
 /* GET home page. */
 router.get('/', function(req, res) {
     res.render('index', { title: 'PewPew Controller' });
@@ -28,7 +37,10 @@ router.post('/position', function(req, res) {
 });
 
 router.get('/position', function(req, res) {
-    res.status(200).send(headPosition.x + " " + headPosition.y + " " + headPosition.z);
+    res.status(200).send(
+        pad3(headPosition.x) + 
+        pad3(headPosition.y) + 
+        pad5(headPosition.z));
 });
 
 module.exports = router;

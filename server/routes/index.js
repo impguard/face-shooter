@@ -37,7 +37,7 @@ router.post('/position', function(req, res) {
 });
 
 router.get('/position', function(req, res) {
-    res.status(200).send(headPosition.x + " " headPosition.y + " " + headPosition.z);
+    res.status(200).send(headPosition.x + " " + headPosition.y + " " + headPosition.z);
 });
 
 module.exports = router;

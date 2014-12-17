@@ -3,6 +3,7 @@ var router = express.Router();
 
 var spaceBarPressed = 0;
 var headPosition = {x: 0, y: 0, z: 0};
+var timestamp = 0;
 
 /* Helper function. */
 var pad5 = function(number) {
@@ -29,10 +30,14 @@ router.get('/spacebar', function(req, res) {
 });
 
 router.post('/position', function(req, res) {
-    headPosition.x = req.query.x;
-    headPosition.y = req.query.y;
-    headPosition.z = req.query.z;
-    console.log("Player Position: " + headPosition);
+    if (timestamp < req.query.t) {
+        timestamp = req.query.t;
+        headPosition.x = req.query.x;
+        headPosition.y = req.query.y;
+        headPosition.z = req.query.z;
+        console.log("Player Position: " + headPosition);
+        console.log("Timestamp      : " + timestamp);
+    }
     res.end();
 });
 

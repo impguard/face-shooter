@@ -41,6 +41,11 @@ router.post('/position', function(req, res) {
     res.end();
 });
 
+router.get('/timestamp', function(req, res) {
+    res.status(200).send(timestamp);
+    res.end();
+});
+
 router.get('/position', function(req, res) {
     res.status(200).send(headPosition.x + " " + headPosition.y + " " + headPosition.z);
 });

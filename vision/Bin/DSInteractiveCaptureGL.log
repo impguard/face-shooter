@@ -1,0 +1,10 @@
+05/10/2014 19:46:14.206 INFO DS - DSInteractiveCaptureGL started
+05/10/2014 19:46:57.485 TRACE DS - CAM 1, Width 640, Height 481, FrameRate 100, Pixel Format 2
+05/10/2014 19:46:57.485 TRACE DS - CAM 0, Width 628, Height 469, FrameRate 100, Pixel Format 10
+05/10/2014 19:46:57.485 TRACE DS - CAM 2, Width 1920, Height 1080, FrameRate 30, Pixel Format 20
+05/10/2014 19:47:02.945 ERROR DS - Internal exception: Failed to grab the third frame
+16/10/2014 17:11:38.311 INFO DS - DSInteractiveCaptureGL started
+16/10/2014 17:11:58.187 TRACE DS - CAM 1, Width 640, Height 481, FrameRate 100, Pixel Format 2
+16/10/2014 17:11:58.187 TRACE DS - CAM 0, Width 628, Height 469, FrameRate 100, Pixel Format 10
+16/10/2014 17:11:58.187 TRACE DS - CAM 2, Width 1920, Height 1080, FrameRate 30, Pixel Format 20
+16/10/2014 17:12:03.655 ERROR DS - Internal exception: Failed to grab the third frame

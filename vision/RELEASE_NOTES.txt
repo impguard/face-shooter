@@ -1,0 +1,123 @@
+DSAPI release notes
+-------------------
+
+Version 1.6 (9/12/2014)
+- Includes FW 60: See included Release notes in DSROOT/Data/DSFirmare/FirmwareReleaseNotes.txt
+- Includes Visual Studio 2013 projects for Samples
+- Split the installer to separate 32-bit and 64-bit targets.
+- FW 60 fixes the YUY2 byte ordering issue, so 1.6 removes the compensation for the incorrect byte ordering in any section that 
+  deals with YUY2 data.  This includes conversion to RGB formats and display code in our sample programs.
+- Added support for 320x240 resolution modes for z/l/r streams
+- Added support 100fps in all z/l/r resolutions
+- Sync after grab is now exact.  Expect framecount to match in all active streams running at the same frame rate.
+- Added check for minimum FW version in ProbeConfiguration. In case of misformated FW version, error is logged and check is disabled.
+- Moved read/writeRegister to private interface
+- Renamed read/writeRegister to set/getRegister, and read/writeImagerReg to set/getImagerRegister for consistent naming
+- Renamed readTemperature to getTemperature for consistent naming
+- Renamed DS_PXM to DS_PNM since PNM is the correct collection name for the formats (and on the other hand PXM is another valid image format)
+- ZToDisparityConstant is now > 0 (it was previously incorrectly negative)
+- DSFirmwareUpdate 
+     - Added creation of recovery partition during update if it is not present
+     - Updated mechanism for FW update to swap valid partition to recovery during update.
+     - Added new required FW file to contain recovery FW data
+     - CHANGED FILE NAMES OF FW FILES.  Now have 5 generic filenames in our release to make it easier to 
+       to update on linux systems, specific version is embedded in all files.  
+         DS4_Firmware.ibin: compatible with all OS
+         DS4_Firmware.ihex, DS4_Firmware_Recovery.ihex: Compatible with Linux and Win8
+       	 DS4_Firmware_Win7.ihex, DS4_Firmware_Recovery_Win7.ihex: compatible with Win7 and Win8
+     - Default behavior (no command line args) on Windows systems is still load use Win7 files
+     - New command line argument (-8) to force use of Linux/Win8 files.
+     - Removed "LinuxFW" directory in release directory structure
+Known Issues:
+- 100fps 320x240 resolution fails to stream
+- L/R Auto exposure mode can be set only before streaming
+
+
+Version 1.5 (7/31/14) Internal release
+- Includes FW 57 - please update your module. See included Release notes in DSROOT/Data/DSFirmare/FirmwareReleaseNotes.txt
+- File Mode: added capture mode from live camera to files, and constructor (factory) object for DSFile - which processes 
+  from files with common API to live camera.  Currently saves to png or ppm file formats. 1080p image are not saved at full frame rate. 
+  Will be improving capture rate for next release.
+- Introduced logging interface (based on log4cxx).  Controlled with setLoggingLevelAndFile function call to set log level 
+  and file path.  Currently logs detected errors and some trace/debug data.  Addtional performance and status data 
+  will be added over time.
+- Support for new XU reset command. Including use of reset after DSFirmwareUpdate so replug will not be necessary to boot 
+  to new FW (will see when update from FW 57 to FW 58).
+- Support for new XU auto exposure (L/R) parameters command. (Auto exposure not fully supported yet).
+- Moved to FreeGlut for all GL display 
+- StopCapture method added.  Streaming is stopped and all configuration data reset to default.
+- Known Issues:
+Known Issues:
+- Win8 provides full enumeration, Win7 sees only default frame rates (60 in LRZ and 30 for Third imager).
+- Third to LRZ sync off by 0-3 frames.  WIP to better handle this in grab.
+- Exposure and Gain settings currently persist after device stop and restart.  Should return to default state.
+- Calling startCapture, stopCapture, then reconfiguring and calling startCapture again is possible, but
+  currently not validated for all configuration.  Consider this feature not yet fully implemented.
+- Starting and stopping the camera without unplug/replug of DS4 USB cable is working with the exception of after error state.
+  If an error state (USB timeout or other fatal error) is signaled, unplug and replug to return to a healthy state.
+- YUY2 byte ordering in the native image is incorrect.  This has been compensated for in our software API during conversion of YUY2 to other formats.
+- Several configurations fail to stream, and do not return the system to a reliable state after failure without replug of USB cable:
+   - 1920x1080  YUY2 format web at 30fps with any resolution z, left, right at 60fps.  
+   - 640x480 YUY2 format web at 60fps with any resolution z at 60fps.
+   - 1920x1080 RAW10 format web at 30fps with any resolution z at 30fps.  Fails also with addition of Left and right images.
+   - 1920x1080 YUY2 format web at 30fps with any resolution z, left, and right at 30fps
+
+Version 1.1 (7/18/14)
+- Includes FW 56.  See included Release notes in DSROOT/Data/DSFirmare/FirmwareReleaseNotes.txt
+- Changed install dir and key environment variable from c:\DS4Install\STROOT to c:\DS4Install\DSROOT
+- Changed location of third party Bin files from %STROOT%\Install\Bin to %DSROOT%\ThirdParty\Bin
+- Changed location of third party include and lib files to %DSROOT%\ThirdParty\<package>\Include and <package>\Lib
+- Added implementation for getCameraSerialNumber
+- Support all enumerated frame rates
+- Support all enumberated pixel format types (new L/R formats for Left only)
+- getFrameCountThird for YUY2 format images is now reporting correct value
+- Initial exposure bug has been fixed.
+- Added stopCapture method to DSAPI
+- In most cases, no longer crashes when DSDestroy is called 
+- Cold boot enumeration bug is fixed in FW
+- YUY2 VGA ISP settings added. Should be similar color quality to 1080p.
+Known Issues:
+- Win8 provides full enumeration, Win7 sees on default frame rates (60 in LRZ and 30 for Third imager).
+- FrameTime not implemented
+- Third to LRZ sync off by 0-3 frames.  WIP to better handle this in grab.
+- FW PU and XU controls have some inconsistancies in this version in initialization state and behavior during streaming. 
+  These have been discussed and are being fixed by FW team.  PU Controls still not validated for Web camera (considered unimplemented).
+- Calling startCapture, stopCapture, then reconfiguring and calling startCapture again is possible, but
+  currently does not handle all reconfiguration correctly in FW.  Consider this feature not yet fully 
+  implemented, but moving toward this goal.
+- Starting and stopping the camera without unplug/replug of DS4 USB cable is working with the exception of after error state.
+  If an error state (USB timeout or other fatal error) is signaled, unplug and replug to return to a healthy state.
+- YUY2 byte ordering in the native image is incorrect.  This has been compensated for in our software API during conversion of YUY2 to other formats.
+- Occasional white horizontal lines seen in Left/Right images in 480x360 resolution mode. (fixed for upcoming FW 57)
+- Asking for too much data (e.g. largest resolutions for all 3 streams) compared to bandwidth your system can handle results in stream timeouts.  
+  This is signaled as an error rather than graceful degradation.
+
+Version 1.0 (6/23/14)
+- Change in API enum names, removed _PF_ from DSPixelFormat.
+- Both 32-bit and 64-bit builds for DLL and samples included. The 32-bit binaries have the suffix "32".
+- Added isCalibrationValid() method
+Known Issues:
+- Sending rapid controls to DS4 modules during streaming (e.g. exposure) can still cause the streaming to hang
+- FW XU Exposure Gain method has a bug with the initial setting.  This has been compensated for by setting an initial exposure & gain in API layer.  
+  Exposure and gain settings made after StartCapture are otherwise fully functional.
+- Starting and stopping the camera without unplug/replug of DS4 USB cable is working with the exception of after error state.
+  If an error state (USB timeout or other fatal error) is signaled, unplug and replug to return to a healthy state.
+- YUY2 byte ordering in the native image is incorrect.  This has been compensated for in our software API during conversion of YUY2 to other formats.
+- YUY2 settings for color imager in VGA mode are yet not complete/tuned.  Image quality is not as good as 1920x1080 size.  
+- RAW10 format third images are available only in native unrectified mode.  Utilities available for user conversion to RGB and for rectification for 1920x1080 resolution.
+- Frame count is not currently embedded in YUY2 data, so frame count is not available for sync evaluation.
+- Device is not recognized after boot (unplug/replug required).
+- Occasional white horizontal lines seen in Left/Right images in 480x360 resolution mode.
+- Asking for too much data (e.g. largest resolutions for all 3 streams) compared to bandwidth your system can handle results in stream timeouts.  
+  This is signaled as an error rather than graceful degradation.
+
+Version 0.6 (6/12/14)
+- Distributed with FW 54
+- The DSAPI, DSThird and DSEmitter interfaces are fully functional for the DS_DS4_PLATFORM platform.
+- The DSHardware interface is not fully functional and hasn't been tested.
+- Interface and type name changes, so will break existing software that are built against the 0.5 version.
+- Added DSGpuRectificationGL sample program to demonstrate display of rectified third images using GPU and CPU.
+- Added DSPointCloudGL sample program to demonstrate usage of calibration related interface and utility functions.
+
+Version 0.5 (6/4/14)
+- The very first released version.

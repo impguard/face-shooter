@@ -1,0 +1,23 @@
+﻿Build started 12/16/2014 5:13:51 PM.
+     1>Project "C:\DS4Install\DSROOT\Samples\DSSimpleCaptureGL\DSSimpleCaptureGL.vs2013.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /IC:\DS4Install\DSROOT\Include /IC:\DS4Install\DSROOT\Samples /IC:\DS4Install\DSROOT\ThirdParty\freeglut\Include /Zi /nologo /W3 /WX- /O2 /Oi /D WIN32 /D NDEBUG /D _CONSOLE /D _CRT_SECURE_NO_WARNINGS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Build\x64-Release\\" /Fd"Build\x64-Release\vc120.pdb" /Gd /TP /errorReport:prompt SimpleCaptureGL.cpp
+         SimpleCaptureGL.cpp
+     1>SimpleCaptureGL.cpp(84): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
+     1>SimpleCaptureGL.cpp(86): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
+     1>SimpleCaptureGL.cpp(98): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>SimpleCaptureGL.cpp(99): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>SimpleCaptureGL.cpp(102): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>SimpleCaptureGL.cpp(105): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"Build\x64-Release\DSSimpleCaptureGL.vs2013.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:C:\DS4Install\DSROOT\Lib /LIBPATH:C:\DS4Install\DSROOT\ThirdParty\freeglut\Lib /LIBPATH:"(OPENCV_DIR)\lib" DSAPI.lib freeglut.lib DSAPI.lib freeglut.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib opencv_core2410.lib opencv_imgproc2410.lib opencv_highgui2410.lib opencv_ml2410.lib opencv_video2410.lib opencv_features2d2410.lib opencv_calib3d2410.lib opencv_objdetect2410.lib opencv_contrib2410.lib opencv_legacy2410.lib opencv_flann2410.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"Build\x64-Release\DSSimpleCaptureGL.vs2013.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"Build\x64-Release\DSSimpleCaptureGL.vs2013.lib" /MACHINE:X64 "Build\x64-Release\SimpleCaptureGL.obj"
+         DSSimpleCaptureGL.vs2013.vcxproj -> C:\DS4Install\DSROOT\Samples\DSSimpleCaptureGL\Build\x64-Release\DSSimpleCaptureGL.vs2013.exe
+       PostBuildEvent:
+         copy Build\x64-Release\DSSimpleCaptureGL.vs2013.exe "%DSROOT%\Bin\DSSimpleCaptureGL.vs2013.exe"
+         :VCEnd
+                 1 file(s) copied.
+     1>Done Building Project "C:\DS4Install\DSROOT\Samples\DSSimpleCaptureGL\DSSimpleCaptureGL.vs2013.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.98

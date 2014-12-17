@@ -1,0 +1,10 @@
+﻿Build started 11/20/2014 11:14:21 AM.
+     1>Project "C:\DS4Install\DSROOT\Samples\DSSimpleCaptureGL\DSSimpleCaptureGL.vs2013.vcxproj" on node 2 (Build target(s)).
+     1>Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"Build\Win32-Release\DSSimpleCaptureGL.vs201332.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:C:\DS4Install\DSROOT\Lib /LIBPATH:C:\DS4Install\DSROOT\ThirdParty\freeglut\Lib DSAPI32.lib freeglut32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"Build\Win32-Release\DSSimpleCaptureGL.vs201332.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"Build\Win32-Release\DSSimpleCaptureGL.vs201332.lib" /MACHINE:X86 /SAFESEH "Build\Win32-Release\SimpleCaptureGL.obj"
+     1>LINK : fatal error LNK1181: cannot open input file 'DSAPI32.lib'
+     1>Done Building Project "C:\DS4Install\DSROOT\Samples\DSSimpleCaptureGL\DSSimpleCaptureGL.vs2013.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:00.83

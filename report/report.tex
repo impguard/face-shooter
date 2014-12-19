@@ -386,7 +386,7 @@ Kevin~Wu,
 
 \section{Introduction}
 
-\IEEEPARstart{T}{his} project will create an automated NERF turret that can detect a target (a human face), aim, and fire at the target. The project will model the detection and aiming of a target as a state machine governed by the combination of RGBD camera data and other sensor inputs to correctly rotate the turret and incline the NERF gun to aim at the target. The goal will be to accurately detect a target and fire accurately for maximum effect.
+\IEEEPARstart{T}{his} project will create an automated NERF turret that can detect, track, and fire at a target (human face). The project will model the detection and aiming of a target as a state machine governed by the combination of RGBD camera data and other sensor inputs to correctly rotate the turret and incline the NERF gun to aim at the target. The goal will be to accurately detect a target and fire accurately for maximum effect.
 
 \section{Project Requirements}
 
@@ -451,9 +451,9 @@ Currently, we have disassembled the NERF gun and reverse-engineered it to the po
     \label{fig:motor}
 \end{figure}
 
-We used pair of motors were used to control the turret; one for vertical motion, and one for horizontal.
+A pair of motors were used to control the turret; one for vertical motion, and one for horizontal.
 
-Our turret is mounted on a turntable, and it is spinning this turntable that allows our NERF gun to rotate side to side. To control the turntable, we went with a stepper motor mounted with a wheel that lies on the rim of the turntable. By driving this motor, our wheel pushes our turntable, causing it to spin and giving us away to move the NERF gun. We decided to use a stepper motor because we felt that the control it gave us made it ideal for this role. We did not need a lot of torque since our turntable spun quite easly, so we could get away with using the stepper motor. Additionally, the stepper lets us have precise control of how many degrees it turned each time we sent it a signal from our microcontroller, which allows us to precisely aim our NERF gun.
+Our turret is mounted on a turntable, and spinning this turntable allows our NERF gun to rotate side to side. To control the turntable, we went with a stepper motor mounted with a wheel that lies on the rim of the turntable. By driving this motor, our wheel pushes our turntable, causing it to spin and allowing us to move the NERF gun. We decided to use a stepper motor because we felt that the control it gave us made it ideal for this role. We did not need a lot of torque since our turntable spun quite easly, so we could get away with using the stepper motor. Additionally, the stepper lets us have precise control of how many degrees it turned each time we sent it a signal from our microcontroller, which allows us to precisely aim our NERF gun.
 
 As for up and down motion, we ended up using a DC motor that through gearing, had a very high torque. Because we mounted our NERF gun on a pivot, we wanted a motor strong enough to be able to pull the gun up and down. Since the NERF gun has a decent weight to it, we needed a pretty high torque motor in order to be able to move the gun. The motor has a strong string that it can wind up that is tied to the back of the gun, allowing us to be able to aim the gun higher or lower.
 
@@ -466,7 +466,7 @@ As for up and down motion, we ended up using a DC motor that through gearing, ha
     \label{fig:electronics}
 \end{figure}
 
-In order to control our motors and the firing of the NERF gun, we relied on a series of relays that lets the MBED control when to send power to the various components of the NERF gun. We ended up using eight relays in total; four relays to control the DC motor, two relays to control the stepper motor, and two relays that dealt with the firing of the NERF gun.
+In order to control our motors and the firing of the NERF gun, we relied on a series of relays that lets the MBED mincrocontroller control when to send power to the various components of the NERF gun. We ended up using eight relays in total; four relays to control the DC motor, two relays to control the stepper motor, and two relays that dealt with the firing of the NERF gun.
 
 We needed to create an H-Bridge in order to give our microcontroller the ability to switch the direction of the voltage driving the DC motor, allowing us to wind and unwind the string that controlled the up down motion of the NERF gun. An H-Bridge requires using four switches, hence four of our relays. The stepper motor could be controlled by senting voltages across the four wires that were attached to it, so we ended up using two of our relays here.
 
@@ -500,7 +500,7 @@ On the software side, we have C++ code that reads from the camera and uses OpenC
 
 Finally, we have our MBED, which we are using to drive the actual aiming and firing of the NERF gun. In order to determine where to point the gun and when to actually shoot, we are relying on the measurements that are stored on our node.js server. To get these, we have decided to use WiFi for our connection scheme. While WiFi might not be the optimal choice if we wanted to track and shoot the target as fast as possible, we found it was the quickest way for us to satisfy our requirements. We used the Adafruit CC3000 chip in order to achieve this. Our MBED would send a GET request to the node.js server, which would return the coordinates of the target, which we would then use to aim and fire the gun.
 
-Figure~\ref{fig:code} shows a high level view of the software ran on the MBED to drive the robot. In the very beginning of the controller program, various initialization are performed before the robot starts operating: web connection is set up for getting camera data and camera is calibrated to ensure accuracy. Next, the robot gets the camera data and checks if it is aiming at the target with some tolerance, if yes, the robot fires the NERF gun, if no, it adjusts its orientation to try to track the target. Afterward, the robot gets the camera data from the node.js server and checks if it is aiming at the target, and the cycle repeats ad infinitum.
+Figure~\ref{fig:code} shows a high level view of the software ran on the MBED to drive the turret. In the very beginning of the controller program, various initialization are performed before the turret starts operating: web connection is set up for getting camera data and camera is calibrated to ensure accuracy. Next, the MBED gets the camera data and checks if the turret is aiming at the target with some tolerance, if yes, it fires the NERF gun, if no, it adjusts the turret's orientation to try to track the target. Afterward, the MBED gets the camera data from the node.js server and checks if the turret is aiming at the target, and the cycle repeats ad infinitum.
 
 \section{Real Time Networks and Timing}
 
@@ -511,7 +511,7 @@ Figure~\ref{fig:code} shows a high level view of the software ran on the MBED to
     \label{fig:network}
 \end{figure}
 
-A large part of getting our system to work involved getting our modules to communicate with each other in real time. To do this, we had to design our communication network to be able to control the NERF gun within a reasonable window to allow it to actually hit people.
+A large part of getting our system to work involved getting our modules to communicate with each other in real time. To do this, we had to design our communication network to be able to control the NERF gun within a reasonable window of time to allow it to actually hit people.
 
 Our communication network consists of three main entities talking to one another--the camera, the central sever, and the MBED. The interactions between these systems can be seen in the diagram. Most of the inter system communication was done using WiFi--we found that it was the easiest solution for us to implement that still gave us performance good enough to meet our criteria. We found that the latency of the WiFi components were roughly 100 milliseconds, which we found was perfectly reasonable for our system. Also, we made sure that we made as much of the communication non blocking as possible, so that our reads and writes would not hang if we could help it.
 
@@ -526,9 +526,9 @@ There were a few techniques that we used in the class to try to get as best perf
 
 While we did manage to meet our requirements with the robot we presented, there are a few areas of improvements that we can work on if we were to continuing developing our project.
 
-On the hardware side of things, we found that our wiring and packaging of all the compenents was not done very well--the compenents have a very large footprint, with wires spanning all over the place. We sometimes found that our wiring, because of the packaging, was limiting how much our turret could rotate. Additionally, the wiring schematic was not particuarily planned out to minimize the footprint initially, so a smarter packaging system would improve our system greatly.
+On the hardware side of things, we found that our wiring and packaging of all the components was not done very well--the components have a very large footprint, with wires spanning all over the place. We sometimes found that our wiring, because of the packaging, was limiting how much our turret could rotate. Additionally, the wiring schematic was not particularly planned out to minimize the footprint initially, so a smarter packaging system would improve our system greatly.
 
-Additionally, we want to look at speeding up our target aquisition and firing so would could perhaps track a moving target. With our current motor and WiFi setup, we can find and hit a static target pretty easily, but our system does not move fast enough to track something moving. Ways to improve this would be to try a faster network protocol, such as using wired connection instead of wireless, or optimizing our code in order to speed up facial recognition or controlling the movement of the robot. We could also modify our algorithm to make the turret move fast if our target is further away in order to lower the number of times we need to poll the camera.
+Additionally, we want to look at speeding up our target acquisition and firing so the turret could perhaps track a moving target. With our current motor and WiFi setup, we can find and hit a static target pretty easily, but our system does not move fast enough to track a moving target. Methods to improve this would be to try a faster network protocol, such as using wired connection instead of wireless, or optimizing our code in order to speed up facial recognition or controlling the movement of the robot. We could also modify our algorithm to make the turret move fast if our target is further away in order to lower the number of times we need to poll the camera.
 
 %============================================================
 % BIBLIOGRAPHY

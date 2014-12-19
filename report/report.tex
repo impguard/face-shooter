@@ -493,14 +493,14 @@ On the software side, we have C++ code that reads from the camera and uses OpenC
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.78\linewidth]{box.jpg}
-    \caption{LEOS SHIT}
+    \includegraphics[width=1.0\linewidth]{controller_algo.png}
+    \caption{Control flow graph of the turret controller}
     \label{fig:code}
 \end{figure}
 
-Finally, we have our MBED, which we are using to drive the actual aiming and firing of the NERF gun. In order to determine where to point the gun and when to actually shoot, we are relying on the measurements that are stored on our node.js server. To get these, we have decided to use WiFi for our connection scheme. While WiFi might not be the optimal choice if we wanted to track and shoot the target as fast as possible, we found it was the quickest way for us to satisfy our requirements. We used the Adafruit CC3000 chip in order to achieve this. Our MBED would send a GET request to the node.js server, which would return the coordinates to shoot at, which we would then use to aim and fire the gun.
+Finally, we have our MBED, which we are using to drive the actual aiming and firing of the NERF gun. In order to determine where to point the gun and when to actually shoot, we are relying on the measurements that are stored on our node.js server. To get these, we have decided to use WiFi for our connection scheme. While WiFi might not be the optimal choice if we wanted to track and shoot the target as fast as possible, we found it was the quickest way for us to satisfy our requirements. We used the Adafruit CC3000 chip in order to achieve this. Our MBED would send a GET request to the node.js server, which would return the coordinates of the target, which we would then use to aim and fire the gun.
 
-LEO TALK ABOUT TARGETING ALGO HERE
+Figure~\ref{fig:code} shows a high level view of the software ran on the MBED to drive the robot. In the very beginning of the controller program, various initialization are performed before the robot starts operating: web connection is set up for getting camera data and camera is calibrated to ensure accuracy. Next, the robot gets the camera data and checks if it is aiming at the target with some tolerance, if yes, the robot fires the NERF gun, if no, it adjusts its orientation to try to track the target. Afterward, the robot gets the camera data from the node.js server and checks if it is aiming at the target, and the cycle repeats ad infinitum.
 
 \section{Real Time Networks and Timing}
 

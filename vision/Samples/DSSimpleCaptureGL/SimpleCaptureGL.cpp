@@ -103,6 +103,9 @@ void detectFaces(IplImage *newframe, uint16_t *Zimg, IplImage *zImgPic, double *
 		}
 		
 	}
+	else {
+		postData(-1, -1, -1);
+	}
 }
 
 void OnIdle()
